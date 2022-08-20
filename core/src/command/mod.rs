@@ -1,3 +1,4 @@
+use serde::Serialize;
 use std::{
     fs::{self, File},
     io::Write,
@@ -6,7 +7,6 @@ use std::{
     thread::sleep,
     time::Duration,
 };
-use serde::{Serialize};
 
 use crate::{
     base::{Link, OpenGraph, Score, Scores},
@@ -37,7 +37,6 @@ async fn create_link(
     sleep(Duration::from_millis(305));
     Ok(())
 }
-
 
 #[tauri::command(async)]
 /// Remove a `.link` from directory
@@ -110,11 +109,11 @@ fn set_scores(
 
 /// Wrapper around the arklib::link::Link struct.
 #[derive(Debug, Serialize)]
-pub struct LinkWrapper{
+pub struct LinkWrapper {
     title: String,
     desc: String,
     url: Url,
-    
+
     // Only shared on desktop
     #[serde(skip_serializing_if = "Option::is_none")]
     created_time: Option<std::time::SystemTime>,
